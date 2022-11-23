@@ -21,7 +21,8 @@ public class RstringsEntity {
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    CascadeType.MERGE,
+                    CascadeType.DETACH
             }, mappedBy = "strings")
     @JsonIgnore
     private Set<MasageEntity> masagess = new HashSet<>();

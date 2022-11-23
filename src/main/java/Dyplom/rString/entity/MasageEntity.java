@@ -30,7 +30,8 @@ public class MasageEntity {
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    CascadeType.MERGE,
+                    CascadeType.DETACH
             })
     @JoinTable(name = "string_massage",
             joinColumns = { @JoinColumn(name = "massage_id") },

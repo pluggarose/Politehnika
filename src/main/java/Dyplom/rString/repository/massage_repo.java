@@ -18,6 +18,12 @@ public interface massage_repo extends JpaRepository <MasageEntity, Long> {
 
     boolean existsByStext(String s_text);
 
+    @Query("select count(string) from MasageEntity message join message.strings string where message.id = :massage_id")
+    Long ifNotExistsMsg(Long massage_id);
+
+    @Query("select massage.id from MasageEntity massage where massage.showed = 1")
+    Long showed1();
+
 
     @Query("select message.id from MasageEntity message join message.strings string where string.id = :strings_id and message.showed = 1")
     List<Long> findMasageEntitiesByStringsIdAAndShowedEquals1(long strings_id);

@@ -3,6 +3,7 @@ package Dyplom.rString.controller;
 
 import Dyplom.rString.entity.RstringsEntity;
 import Dyplom.rString.exeptions.srtingAllreadyExists;
+import Dyplom.rString.repository.massage_repo;
 import Dyplom.rString.service.rStrignsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ public class add_rString_Controller {
 
     @Autowired
     private rStrignsService RStrignsService;
+    @Autowired
+    massage_repo Masage_repo;
 
     @PostMapping
     public ResponseEntity add_string(@RequestBody RstringsEntity sring)

@@ -24,6 +24,7 @@ public class MassegeController {
     private strings_repo Strings_repo;
 
 
+
     @GetMapping("/string/{stringId}/massage")
     public ResponseEntity<List<MasageEntity>> getAllMassagentsByRstringId(@PathVariable(value = "stringId") Long stringId) {
         List<MasageEntity> masageents = Massage_repo.findMasageEntitiesByStringsId(stringId);
@@ -97,6 +98,24 @@ public class MassegeController {
     return new ResponseEntity<>(Massage_repo.save(_tutorial), HttpStatus.OK);
   }
 
+  @PutMapping("/massage/{id}/showed")
+  @CrossOrigin
+  public ResponseEntity<MasageEntity> updateTutorialShowed(@PathVariable("id") long id, @RequestBody MasageEntity tutorial) {
+        MasageEntity _tutorial = Massage_repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found massage with id = " + id));
+        _tutorial.setShowed(tutorial.getShowed());
+        return new ResponseEntity<>(Massage_repo.save(_tutorial), HttpStatus.OK);
+  }
+
+  @PutMapping("/massage/{id}/showed_chane")
+  public ResponseEntity<MasageEntity> updateTutorialShowedChange(@PathVariable("id") long id, @RequestBody MasageEntity tutorial) {
+        MasageEntity _tutorial = Massage_repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found massage with id = " + id));
+        Long showedFlag = Massage_repo.showed1();
+        if (showedFlag == 1) {_tutorial.setShowed(0L);}
+        else {_tutorial.setShowed(1L);}
+        return new ResponseEntity<>(Massage_repo.save(_tutorial), HttpStatus.OK);
+  }
 
   @PostMapping("/massage/{tutorialId}/string")
   public ResponseEntity<RstringsEntity> addTag(@PathVariable(value = "tutorialId") Long tutorialId, @RequestBody RstringsEntity tagRequest) {
@@ -126,6 +145,11 @@ public class MassegeController {
 
         tutorial.removeStrings(tagId);
         Massage_repo.save(tutorial);
+        Long tt = Massage_repo.ifNotExistsMsg(tutorialId);
+        if (tt == 0)
+        {
+            Massage_repo.deleteById(tutorialId);
+        }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
